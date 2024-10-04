@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Verifikasi Kode</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Masukkan Kode Verifikasi</h1>
+        <form action="proses_verifikasi.php" method="POST">
+            <input type="text" name="verification_code" placeholder="Masukkan kode verifikasi" required>
+            <button type="submit">Verifikasi</button>
+        </form>
+    </div>
+
+    <script>
+        // Menampilkan kode verifikasi di pop-up
+        window.onload = function() {
+            fetch('get_code.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.verification_code) {
+                    alert("Kode Verifikasi Anda: " + data.verification_code);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

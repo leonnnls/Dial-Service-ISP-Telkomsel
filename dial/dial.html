@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Style Dial Pad</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="dial-container">
+    <!-- Display for showing the input numbers -->
+    <input type="text" id="display" readonly placeholder="Enter number here">
+
+    <!-- Dial Pad -->
+    <div class="dial-pad">
+        <div class="row">
+            <button onclick="addToDisplay('1')">1</button>
+            <button onclick="addToDisplay('2')">2</button>
+            <button onclick="addToDisplay('3')">3</button>
+        </div>
+        <div class="row">
+            <button onclick="addToDisplay('4')">4</button>
+            <button onclick="addToDisplay('5')">5</button>
+            <button onclick="addToDisplay('6')">6</button>
+        </div>
+        <div class="row">
+            <button onclick="addToDisplay('7')">7</button>
+            <button onclick="addToDisplay('8')">8</button>
+            <button onclick="addToDisplay('9')">9</button>
+        </div>
+        <div class="row">
+            <button onclick="addToDisplay('*')">*</button>
+            <button onclick="addToDisplay('0')">0</button>
+            <button onclick="addToDisplay('#')">#</button>
+        </div>
+        <div class="row">
+            <button class="delete" onclick="deleteLastCharacter()"><i class="fas fa-backspace"></i></button>
+            <button class="enter" onclick="submitNumber()"><i class="fas fa-phone-alt"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for service options -->
+<div id="serviceModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Service Menu</h2>
+        <ul>
+            <li>1. SURPRISE DEAL</li>
+            <li>2. 25GB/50RB/28hr</li>
+            <li>3. Super Seru</li>
+            <li>4. Harian Aplikasi</li>
+            <li>5. Serba 5rb</li>
+            <li>6. Bulanan Aplikasi</li>
+            <li>7. Cek Pulsa</li>
+            <li>8. Beli Masa Aktif</li>
+            <li>9. Kembali</li>
+        </ul>
+        <input type="text" id="userResponse" placeholder="Enter option (1-9)">
+        <button id="submitButton" onclick="submitResponse()">Submit</button>
+        <button id="cekPulsaButton" style="display:none;" onclick="checkPulsa()">Cek Pulsa</button>
+        <button id="closeButton" style="display:none;" onclick="closeDetailModal()">Close</button>
+        <p id="serviceDescription" style="display:none;"></p>
+    </div>
+</div>
+
+<script>
+    // Simulasi nomor telepon login yang disimpan
+    const loggedInPhoneNumber = '85336565485'; // Ganti dengan nomor telepon dari sistem login
+
+    // Function to add the clicked value to the display
+    function addToDisplay(value) {
+        const display = document.getElementById('display');
+        display.value += value;
+    }
+
+    // Function to handle the delete button action
+    function deleteLastCharacter() {
+        const display = document.getElementById('display');
+        display.value = display.value.slice(0, -1); // Remove the last character
+    }
+
+    // Function to handle the enter button action
+    function submitNumber() {
+        const display = document.getElementById('display');
+        const number = display.value.trim(); // Trim whitespace to avoid issues
+
+        if (number === '*888#') {
+            document.getElementById('serviceModal').style.display = 'flex';
+        } else {
+            alert("Number submitted: " + number);
+        }
+
+        display.value = ''; // Clear the display after submission
+    }
+
+    // Function to handle user response from the modal
+    function submitResponse() {
+        const response = document.getElementById('userResponse').value;
+        const serviceDesc = document.getElementById('serviceDescription');
+        const submitButton = document.getElementById('submitButton');
+        const cekPulsaButton = document.getElementById('cekPulsaButton');
+        const closeButton = document.getElementById('closeButton');
+
+        if (response >= 1 && response <= 6 || response == 8) {
+            const services = [
+                "Surprise Deal: Amazing discount!",
+                "25GB/50RB/28hr: Get 25GB data for only 50K for 28 hours.",
+                "Super Seru: Fun package with lots of surprises.",
+                "Harian Aplikasi: Daily app subscription.",
+                "Serba 5rb: Everything for 5K.",
+                "Bulanan Aplikasi: Monthly app subscription.",
+                "Beli Masa Aktif: Purchase active period."
+            ];
+            serviceDesc.innerText = services[response - 1];
+            serviceDesc.style.display = 'block';
+            submitButton.style.display = 'none'; // Hide submit button
+        } else if (response === '7') {
+            serviceDesc.innerText = "Cek Pulsa Anda. Tekan 'Cek Pulsa' untuk melihat saldo.";
+            serviceDesc.style.display = 'block';
+            cekPulsaButton.style.display = 'inline-block'; // Show Cek Pulsa button
+            closeButton.style.display = 'inline-block'; // Show Close button
+            submitButton.style.display = 'none'; // Hide submit button
+        } else if (response === '9') {
+            alert("Returning to main menu.");
+            document.getElementById('serviceModal').style.display = 'none';
+        } else {
+            alert("Invalid option. Please enter a number between 1 and 9.");
+        }
+    }
+
+    // Function to check pulsa
+    function checkPulsa() {
+        const phoneNumber = loggedInPhoneNumber;
+
+        if (phoneNumber) {
+            fetch(`get_pulsa.php?phone_number=${phoneNumber}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert(`Sisa pulsa Anda: Rp${data.pulsa}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    alert("Terjadi kesalahan saat mengambil data pulsa. Silakan coba lagi.");
+                });
+        } else {
+            alert("Nomor telepon tidak valid.");
+        }
+    }
+
+    // Function to close the modal
+    function closeDetailModal() {
+        document.getElementById('serviceModal').style.display = 'none';
+        document.getElementById('serviceDescription').style.display = 'none';
+        document.getElementById('cekPulsaButton').style.display = 'none';
+        document.getElementById('closeButton').style.display = 'none';
+    }
+
+    // Function to close the modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('serviceModal');
+        if (event.target === modal) {
+            modal.style.display = "none"; // Close the modal
+        }
+    }
+</script>
+
+</body>
+</html>

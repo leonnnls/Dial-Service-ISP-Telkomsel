@@ -1,0 +1,145 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e6e6e6;
+}
+
+.dial-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+#display {
+    width: 240px;
+    height: 40px;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #f9f9f9;
+}
+
+.dial-pad {
+    display: grid;
+    grid-gap: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    width: 80px;
+    height: 80px;
+    background-color: #f0f0f0;
+    color: #000;
+    font-size: 28px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    background-color: #d1d1d1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+    outline: none;
+}
+
+button.enter {
+    width: 80px; /* Set to same width for consistency */
+    height: 80px; /* Set to same height for consistency */
+    background-color: #34C759;
+    color: white;
+    font-size: 36px; /* Larger font size for the icon */
+    border-radius: 50%; /* Make it circular */
+}
+
+button.delete {
+    width: 80px; /* Set to same width for consistency */
+    height: 80px; /* Set to same height for consistency */
+    background-color: #ff3b30; /* Red color for delete button */
+    color: white;
+    font-size: 36px; /* Larger font size for the icon */
+    border-radius: 50%; /* Make it circular */
+}
+
+button.enter:active, button.delete:active {
+    background-color: #28a745; /* Green color when pressed */
+}
+
+/* Modal styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    display: flex; /* Use flexbox to align center */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.modal-content ul li {
+    margin: 5px 0;
+}
+
+.modal-content input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #34C759;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-content button:hover {
+    background-color: #28a745;
+}

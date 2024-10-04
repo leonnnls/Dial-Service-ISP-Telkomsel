@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Login by Phone Number</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Login by Phone Number</h1>
+        <form action="login.php" method="POST"> <!-- Form mengarah ke file PHP -->
+            <div class="phone-input">
+                <span class="country-code">+62</span>
+                <input type="tel" id="phone" name="phone" placeholder="Nomor telepon Anda" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
